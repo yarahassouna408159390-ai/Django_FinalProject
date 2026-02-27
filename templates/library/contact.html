@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-3">Contact</h2>
+
+<div class="row g-4">
+  <div class="col-lg-6">
+    <div class="card rounded-4 shadow-sm">
+      <div class="card-body">
+        <h5 class="mb-3">Send us a message</h5>
+
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-2">
+            <label class="form-label">Name</label>
+            {{ form.name }}
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Email</label>
+            {{ form.email }}
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Subject</label>
+            {{ form.subject }}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Message</label>
+            {{ form.message }}
+          </div>
+          <button class="btn btn-dark">Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="card rounded-4 shadow-sm">
+      <div class="card-body">
+        <h5 class="mb-2">Contact Info</h5>
+        <p class="text-muted mb-2">Email: example@elibrary.com</p>
+        <p class="text-muted mb-0">Phone: +000 000 000</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

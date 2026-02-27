@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load library_extras %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+  <div>
+    <h2 class="mb-0">{{ author.name }}</h2>
+    {% if author.bio %}<div class="text-muted mt-1">{{ author.bio }}</div>{% endif %}
+  </div>
+  <a class="btn btn-outline-dark btn-sm" href="{% url 'authors' %}">Back</a>
+</div>
+
+<div class="row g-3">
+  {% for book in books %}
+    <div class="col-md-4">
+      <div class="card book-card h-100 rounded-4 shadow-sm">
+        {% if book.cover %}
+          <img class="card-img-top book-cover" src="{{ book.cover.url }}" alt="{{ book.title }}">
+        {% else %}
+          <div class="placeholder-cover">No Cover</div>
+        {% endif %}
+        <div class="card-body">
+          <div class="d-flex justify-content-between gap-2">
+            <div>
+              <div class="fw-semibold">{{ book.title }}</div>
+              <div class="text-muted small">{{ book.category.name }}</div>
+            </div>
+            <span class="badge {% if book|book_status == 'available' %}bg-success{% else %}bg-danger{% endif %}">
+              {% if book|book_status == 'available' %}Available{% else %}Fully Borrowed{% endif %}
+            </span>
+          </div>
+          <a class="stretched-link" href="{% url 'book_detail' book.id %}"></a>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p class="text-muted">No books for this author.</p>
+  {% endfor %}
+</div>
+{% endblock %}

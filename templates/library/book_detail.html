@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load library_extras %}
+
+{% block content %}
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="card rounded-4 shadow-sm overflow-hidden">
+      {% if book.cover %}
+        <img class="book-cover-lg" src="{{ book.cover.url }}" alt="{{ book.title }}">
+      {% else %}
+        <div class="placeholder-cover-lg">No Cover</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="col-lg-8">
+    <div class="d-flex align-items-start justify-content-between gap-2 flex-wrap">
+      <div>
+        <h2 class="mb-1">{{ book.title }}</h2>
+        <div class="text-muted">{{ book.author.name }} • {{ book.category.name }}</div>
+        <div class="text-muted small mt-1">
+          {{ book.publication_year }} • {{ book.pages }} pages • {{ book.language }}
+        </div>
+      </div>
+
+      <span class="badge fs-6 {% if book|book_status == 'available' %}bg-success{% else %}bg-danger{% endif %}">
+        {% if book|book_status == 'available' %}Available{% else %}Fully Borrowed{% endif %}
+      </span>
+    </div>
+
+    <div class="mt-3">
+      <h5>Description</h5>
+      <p class="text-muted">{{ book.description }}</p>
+    </div>
+
+    <div class="mt-3 d-flex gap-2 flex-wrap">
+      {% if user.is_authenticated %}
+        {% if user.is_staff %}
+          <span class="text-muted">Admin account (borrowing disabled here).</span>
+        {% else %}
+          {% if can_borrow %}
+            <a class="btn btn-dark" href="{% url 'borrow_book' book.id %}">Borrow</a>
+          {% elif currently_borrowed_by_user %}
+            <span class="badge bg-warning text-dark">You already borrowed it</span>
+          {% else %}
+            <span class="text-muted">Borrowing not available now.</span>
+          {% endif %}
+
+          {% if borrowed_before %}
+            <a class="btn btn-outline-dark" href="{% url 'add_review' book.id %}">Add Review</a>
+          {% else %}
+            <span class="text-muted">Return it first to review.</span>
+          {% endif %}
+        {% endif %}
+      {% else %}
+        <a class="btn btn-dark" href="{% url 'login' %}">Login to Borrow</a>
+      {% endif %}
+    </div>
+
+    <hr class="my-4">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <h4 class="mb-0">Reviews</h4>
+      <span class="text-muted small">Average: {{ book.avg_rating }}/5</span>
+    </div>
+
+    <div class="mt-3">
+      {% for r in reviews %}
+        <div class="card rounded-4 shadow-sm mb-2">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <div class="fw-semibold">
+                {% if r.user.profile.full_name %}{{ r.user.profile.full_name }}{% else %}{{ r.user.username }}{% endif %}
+              </div>
+              <div class="badge bg-dark">{{ r.stars }}/5</div>
+            </div>
+            {% if r.comment %}
+              <div class="text-muted mt-2">{{ r.comment }}</div>
+            {% endif %}
+            <div class="text-muted small mt-2">{{ r.created_at }}</div>
+          </div>
+        </div>
+      {% empty %}
+        <p class="text-muted mb-0">No reviews yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

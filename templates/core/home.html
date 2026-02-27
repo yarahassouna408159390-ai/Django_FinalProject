@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="p-4 p-lg-5 rounded-4 bg-body-tertiary border">
+  <h1 class="mb-2">Welcome to E-Library</h1>
+  <p class="text-muted mb-0">Browse books, borrow, and review what you have read.</p>
+
+  <div class="row mt-4 g-3">
+    <div class="col-md-4">
+      <div class="card rounded-4 shadow-sm">
+        <div class="card-body">
+          <div class="text-muted small">Total Books</div>
+          <div class="fs-3 fw-semibold">{{ stats.books }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card rounded-4 shadow-sm">
+        <div class="card-body">
+          <div class="text-muted small">Authors</div>
+          <div class="fs-3 fw-semibold">{{ stats.authors }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card rounded-4 shadow-sm">
+        <div class="card-body">
+          <div class="text-muted small">Students</div>
+          <div class="fs-3 fw-semibold">{{ stats.students }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4 d-flex gap-2 flex-wrap">
+    <a class="btn btn-dark" href="{% url 'books' %}">Browse Books</a>
+    <a class="btn btn-outline-dark" href="{% url 'categories' %}">Categories</a>
+    <a class="btn btn-outline-dark" href="{% url 'authors' %}">Authors</a>
+  </div>
+</div>
+
+<div class="row mt-4 g-4">
+  <div class="col-lg-8">
+    <h3 class="mb-3">Latest Books</h3>
+    <div class="row g-3">
+      {% for b in latest_books %}
+        <div class="col-md-4">
+          <div class="card book-card h-100 rounded-4 shadow-sm">
+            {% if b.cover %}
+              <img class="card-img-top book-cover" src="{{ b.cover.url }}" alt="{{ b.title }}">
+            {% else %}
+              <div class="placeholder-cover">No Cover</div>
+            {% endif %}
+            <div class="card-body">
+              <div class="fw-semibold">{{ b.title }}</div>
+              <div class="text-muted small">{{ b.author.name }} • {{ b.category.name }}</div>
+              <a class="stretched-link" href="{% url 'book_detail' b.id %}"></a>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <p class="text-muted">No books yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <h3 class="mb-3">Top Rated (by reviews count)</h3>
+    <div class="list-group shadow-sm rounded-4 overflow-hidden">
+      {% for b in top_rated %}
+        <a class="list-group-item list-group-item-action" href="{% url 'book_detail' b.id %}">
+          <div class="fw-semibold">{{ b.title }}</div>
+          <div class="text-muted small">{{ b.author.name }} • {{ b.category.name }}</div>
+        </a>
+      {% empty %}
+        <div class="list-group-item text-muted">No ratings yet.</div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+}

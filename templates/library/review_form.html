@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-3">Add Review</h2>
+
+<div class="card rounded-4 shadow-sm">
+  <div class="card-body">
+    <div class="mb-3">
+      <div class="fw-semibold">{{ book.title }}</div>
+      <div class="text-muted small">{{ book.author.name }} • {{ book.category.name }}</div>
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="mb-2">
+        <label class="form-label">Stars (1 to 5)</label>
+        {{ form.stars }}
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Comment</label>
+        {{ form.comment }}
+      </div>
+      <button class="btn btn-dark">Submit</button>
+      <a class="btn btn-outline-dark" href="{% url 'book_detail' book.id %}">Cancel</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

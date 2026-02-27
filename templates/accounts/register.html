@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-6">
+    <div class="card rounded-4 shadow-sm">
+      <div class="card-body">
+        <h2 class="mb-3">Register</h2>
+
+        <form method="post">
+          {% csrf_token %}
+
+          {% if form.errors %}
+  <div class="alert alert-danger">
+    <ul class="mb-0">
+      {% for field in form %}
+        {% for error in field.errors %}
+          <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+        {% endfor %}
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+
+          <div class="row g-2">
+            <div class="col-md-6">
+              <label class="form-label">Username</label>
+              {{ form.username }}
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Email</label>
+              {{ form.email }}
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Full name</label>
+              {{ form.full_name }}
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Phone</label>
+              {{ form.phone }}
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Password</label>
+              {{ form.password }}
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Confirm Password</label>
+              {{ form.confirm_password }}
+            </div>
+          </div>
+
+          <button class="btn btn-dark w-100 mt-3">Create Account</button>
+        </form>
+
+        <div class="text-muted small mt-3">
+          Already have account? <a href="{% url 'login' %}">Login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

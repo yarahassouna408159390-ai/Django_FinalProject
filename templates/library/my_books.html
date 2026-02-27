@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-3">My Books</h2>
+
+<div class="row g-4">
+  <div class="col-lg-6">
+    <div class="card rounded-4 shadow-sm">
+      <div class="card-body">
+        <h5 class="mb-3">Currently Borrowed</h5>
+
+        {% for b in active %}
+          <div class="border rounded-4 p-3 mb-2">
+            <div class="fw-semibold">{{ b.book.title }}</div>
+            <div class="text-muted small">Borrowed at: {{ b.borrowed_at }}</div>
+            <div class="text-muted small">Expected return: {{ b.expected_return_at }}</div>
+
+            {% if b.expected_return_at < now %}
+              <span class="badge bg-danger mt-2">Late</span>
+            {% else %}
+              <span class="badge bg-success mt-2">On time</span>
+            {% endif %}
+
+            <div class="mt-2">
+              <a class="btn btn-outline-dark btn-sm" href="{% url 'book_detail' b.book.id %}">Details</a>
+              <a class="btn btn-dark btn-sm" href="{% url 'return_book' b.id %}">Return</a>
+            </div>
+          </div>
+        {% empty %}
+          <p class="text-muted mb-0">No active borrows.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="card rounded-4 shadow-sm">
+      <div class="card-body">
+        <h5 class="mb-3">History</h5>
+
+        {% for b in history %}
+          <div class="border rounded-4 p-3 mb-2">
+            <div class="fw-semibold">{{ b.book.title }}</div>
+            <div class="text-muted small">Borrowed at: {{ b.borrowed_at }}</div>
+            <div class="text-muted small">Returned at: {{ b.returned_at }}</div>
+            <div class="mt-2">
+              <a class="btn btn-outline-dark btn-sm" href="{% url 'book_detail' b.book.id %}">Details</a>
+              <a class="btn btn-outline-primary btn-sm" href="{% url 'add_review' b.book.id %}">Review</a>
+            </div>
+          </div>
+        {% empty %}
+          <p class="text-muted mb-0">No history yet.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
