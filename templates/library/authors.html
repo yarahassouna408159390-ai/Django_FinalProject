@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 <h2 class="mb-3">Authors</h2>
@@ -6,17 +7,27 @@
 <div class="row g-3">
   {% for a in authors %}
     <div class="col-md-4">
-      <a class="card rounded-4 shadow-sm text-decoration-none text-dark h-100" href="{% url 'author_detail' a.id %}">
-        <div class="card-body d-flex gap-3">
-          {% if a.photo %}
-            <img class="author-thumb" src="{{ a.photo.url }}" alt="{{ a.name }}">
-          {% else %}
-            <div class="author-thumb placeholder-thumb">A</div>
-          {% endif %}
+      <a class="card rounded-4 shadow-sm text-decoration-none text-dark h-100"
+         href="{% url 'author_detail' a.id %}">
+        <div class="card-body d-flex gap-3 align-items-center">
+
+          {# صورة من static حسب id #}
+          <img class="author-thumb"
+               src="{% static 'images/authors/' %}{{ a.id }}.jpg"
+               alt="{{ a.name }}"
+               onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';">
+
+          {# Placeholder إذا الصورة غير موجودة #}
+          <div class="author-thumb placeholder-thumb"
+               style="display:none; align-items:center; justify-content:center;">
+            {{ a.name|slice:":1" }}
+          </div>
+
           <div>
             <div class="fw-semibold">{{ a.name }}</div>
             <div class="text-muted small">{{ a.book_count }} book(s)</div>
           </div>
+
         </div>
       </a>
     </div>
