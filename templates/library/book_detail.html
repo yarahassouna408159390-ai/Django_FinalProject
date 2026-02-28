@@ -1,15 +1,21 @@
 {% extends "base.html" %}
+{% load static %}
 {% load library_extras %}
 
 {% block content %}
 <div class="row g-4">
   <div class="col-lg-4">
     <div class="card rounded-4 shadow-sm overflow-hidden">
-      {% if book.cover %}
-        <img class="book-cover-lg" src="{{ book.cover.url }}" alt="{{ book.title }}">
-      {% else %}
-        <div class="placeholder-cover-lg">No Cover</div>
-      {% endif %}
+      <img
+        class="book-cover-lg"
+        src="{% static 'images/books/' %}{{ book.id }}.jpg"
+        alt="{{ book.title }}"
+        onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';"
+>
+
+<div class="placeholder-cover" style="display:none; align-items:center; justify-content:center;">
+  No Cover
+</div>
     </div>
   </div>
 

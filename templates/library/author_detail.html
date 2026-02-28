@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load library_extras %}
+{% load static %}
 
 {% block content %}
 <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
@@ -14,11 +15,16 @@
   {% for book in books %}
     <div class="col-md-4">
       <div class="card book-card h-100 rounded-4 shadow-sm">
-        {% if book.cover %}
-          <img class="card-img-top book-cover" src="{{ book.cover.url }}" alt="{{ book.title }}">
-        {% else %}
-          <div class="placeholder-cover">No Cover</div>
-        {% endif %}
+        <img
+  class="card-img-top book-cover"
+  src="{% static 'images/books/' %}{{ book.id }}.jpg"
+  alt="{{ book.title }}"
+ onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';"
+>
+
+<div class="placeholder-cover" style="display:none; align-items:center; justify-content:center;">
+  No Cover
+</div>
         <div class="card-body">
           <div class="d-flex justify-content-between gap-2">
             <div>
