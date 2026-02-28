@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 <div class="p-4 p-lg-5 rounded-4 bg-body-tertiary border">
@@ -42,15 +43,24 @@
 <div class="row mt-4 g-4">
   <div class="col-lg-8">
     <h3 class="mb-3">Latest Books</h3>
+
     <div class="row g-3">
       {% for b in latest_books %}
         <div class="col-md-4">
           <div class="card book-card h-100 rounded-4 shadow-sm">
-            {% if b.cover %}
-              <img class="card-img-top book-cover" src="{{ b.cover.url }}" alt="{{ b.title }}">
-            {% else %}
-              <div class="placeholder-cover">No Cover</div>
-            {% endif %}
+
+            {# cover from static by id #}
+            <img
+              class="card-img-top book-cover"
+              src="{% static 'images/books/' %}{{ b.id }}.jpg"
+              alt="{{ b.title }}"
+              onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';"
+>
+
+<div class="placeholder-cover" style="display:none; align-items:center; justify-content:center;">
+  No Cover
+</div>
+
             <div class="card-body">
               <div class="fw-semibold">{{ b.title }}</div>
               <div class="text-muted small">{{ b.author.name }} • {{ b.category.name }}</div>
@@ -79,4 +89,3 @@
   </div>
 </div>
 {% endblock %}
-}
