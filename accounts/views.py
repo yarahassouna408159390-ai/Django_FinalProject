@@ -26,10 +26,10 @@ def login_view(request):
             if not remember:
                 request.session.set_expiry(0)
 
-            messages.success(request, "تم تسجيل الدخول.")
+            messages.success(request, "You are logged in.")
             return redirect('home')
 
-        messages.error(request, "اسم المستخدم/البريد أو كلمة المرور غير صحيحة.")
+        messages.error(request, "Incorrect username/email or password.")
 
     return render(request, 'accounts/login.html')
     
