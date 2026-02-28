@@ -1,0 +1,50 @@
+.brand-dot{
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #ffc107;
+  display: inline-block;
+}
+
+.book-cover{
+  height: 210px;
+  object-fit: cover;
+}
+
+.book-cover-lg{
+  width: 100%;
+  height: 520px;
+  object-fit: cover;
+}
+
+.placeholder-cover,
+.placeholder-cover-lg{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f1f3f5;
+  color:#6c757d;
+  font-weight:600;
+}
+
+.placeholder-cover{ height:210px; }
+.placeholder-cover-lg{ height:520px; }
+
+.book-card{ position: relative; }
+
+.author-thumb, .profile-pic{
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  object-fit: cover;
+  flex: 0 0 auto;
+}
+
+.placeholder-thumb{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f1f3f5;
+  color:#6c757d;
+  font-weight:700;
+}
